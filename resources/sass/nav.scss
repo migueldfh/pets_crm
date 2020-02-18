@@ -52,7 +52,7 @@ a {
 }
 
 .cd-content-wrapper {
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
 
   @include breakpoint(md) {
     h1 {
@@ -288,7 +288,7 @@ a {
 
 .cd-side__item {
   @include breakpoint(md) {
-    font-size: 0.65em;
+    font-size: 0.95em;
 
     a {
       padding-left: var(--space-sm);

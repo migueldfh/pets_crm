@@ -7,7 +7,7 @@
 
             <div class="cd-search js-cd-search">
               <form>
-                <input class="reset" type="search" placeholder="Search...">
+                <input class="reset" type="search" placeholder="Buscar...">
               </form>
             </div>
 
@@ -26,12 +26,10 @@
               <li class="cd-nav__item cd-nav__item--has-children cd-nav__item--account js-cd-item--has-children" v-if="$auth.check() ? navVisible = true : navVisible = false">
                   <a href="#0">
                     <img src="/img/cd-avatar.svg" alt="avatar">
-                    <span>Account</span>
+                    <span>Cuenta</span>
                   </a>
 
                 <ul class="cd-nav__sub-list">
-                  <!-- <li class="cd-nav__sub-item"><a href="#0">My Account</a></li>
-                  <li class="cd-nav__sub-item"><a href="#0">Edit Account</a></li> -->
                   <li class="cd-nav__sub-item" v-if="$auth.check()">
                       <a href="" @click.prevent="$auth.logout()">Logout</a>
                   </li>
@@ -42,8 +40,8 @@
         <main class="cd-main-content">
           <nav class="cd-side-nav js-cd-side-nav">
             <ul class="cd-side__list js-cd-side__list">
-              <li class="cd-side__item cd-side__item--has-children cd-side__item--overview"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item cd-side__item--selected cd-side__item--overview"
+                  v-if="$auth.check()"
                   v-for="(route, key) in routes.user"
                   v-bind:key="route.path"
               >
@@ -52,93 +50,44 @@
                   </router-link>
               </li>
 
-              <li class="cd-side__item cd-side__item--has-children js-cd-item--has-children"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item"
+                  v-if="$auth.check() ? navVisible = true : navVisible = false"
               >
                 <a href="#0">Clientes<!--span class="cd-count">3</span--></a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a aria-current="page" href="#0">Agregar cliente</a></li>
-                </ul>
               </li>
 
-              <li class="cd-side__item cd-side__item--has-children js-cd-item--has-children"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.subsidiaries"
+                  v-bind:key="route.path"
               >
-                <a href="#0">Sucursales<!--span class="cd-count">3</span--></a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a aria-current="page" href="#0">Agregar sucursal</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Agregar zona</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Administrar zonas</a></li>
-                </ul>
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
               </li>
 
-              <li class="cd-side__item cd-side__item--has-children js-cd-item--has-children"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
               >
                 <a href="#0">Inventario</a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">Agregar</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Lista por zona</a></li>
-                </ul>
               </li>
 
-              <li class="cd-side__item cd-side__item--has-children js-cd-item--has-children"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.sales"
+                  v-bind:key="route.path"
               >
-                <a href="#0">Ventas</a>
-
-                <!-- <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">Agregar</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Lista por zona</a></li>
-                </ul> -->
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
               </li>
 
-              <li class="cd-side__item cd-side__item--has-children js-cd-item--has-children"
-                  v-if="$auth.check(2)"
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
               >
                 <a href="#0">Cobranza</a>
-
-                <!-- <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">Agregar</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Lista por zona</a></li>
-                </ul> -->
               </li>
             </ul>
-
-            <!-- <ul class="cd-side__list js-cd-side__list">
-              <li class="cd-side__label"><span>Secondary</span></li>
-              <li class="cd-side__item cd-side__item--has-children cd-side__item--bookmarks js-cd-item--has-children">
-                <a href="#0">Bookmarks</a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">All Bookmarks</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Edit Bookmark</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Import Bookmark</a></li>
-                </ul>
-              </li>
-
-              <li class="cd-side__item cd-side__item--has-children cd-side__item--images js-cd-item--has-children">
-                <a href="#0">Images</a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">All Images</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Edit Image</a></li>
-                </ul>
-              </li>
-
-              <li class="cd-side__item cd-side__item--has-children cd-side__item--users js-cd-item--has-children">
-                <a href="#0">Users</a>
-
-                <ul class="cd-side__sub-list">
-                  <li class="cd-side__sub-item"><a href="#0">All Users</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Edit User</a></li>
-                  <li class="cd-side__sub-item"><a href="#0">Add User</a></li>
-                </ul>
-              </li>
-            </ul> -->
 
             <ul class="cd-side__list js-cd-side__list">
               <li class="cd-side__btn" v-if="!$auth.check()"><button class="reset" href="#0">Login</button></li>
@@ -171,13 +120,24 @@
               path: 'login'
             }
           ],
-          // LOGGED USER
           user: [
             {
               name: 'Dashboard',
               path: 'dashboard'
             }
           ],
+          subsidiaries: [
+            {
+              name: 'Sucursales',
+              path: 'subsidiaries'
+            }
+          ],
+          sales: [
+            {
+              name: 'Ventas',
+              path: 'sales'
+            }
+          ]
         }
       }
     },

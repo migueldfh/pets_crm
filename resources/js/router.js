@@ -5,6 +5,8 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import AdminDashboard from './components/admin/Dashboard'
+import Subsidiary from './components/Subsidiary'
+import Sales from './components/Sales'
 
 // Routes
 const routes = [
@@ -24,7 +26,6 @@ const routes = [
       auth: false
     }
   },
-  // USER ROUTES
   {
     path: '/',
     name: 'dashboard',
@@ -33,6 +34,22 @@ const routes = [
       auth: true
     }
   },
+  {
+    path: '/sucursales',
+    name: 'subsidiaries',
+    component: Subsidiary,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/ventas',
+    name: 'sales',
+    component: Sales,
+    meta: {
+      auth: true
+    }
+  }
 ]
 const router = new VueRouter({
   history: true,

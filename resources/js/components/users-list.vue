@@ -1,8 +1,11 @@
 <template>
 <div>
     <h3>Lista de Usuarios</h3>
-    <div class="alert alert-danger" v-if="has_error">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="has_error">
         <p>Tuvimos problemas al traer datos, intenta de nuevo mas tarde.</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <table class="table">
         <tr>

@@ -19,7 +19,6 @@
 
     //on mobile, open sidebar when clicking on menu icon
     mobileNavTrigger.addEventListener('click', function(event){
-      console.log('enter');
       event.preventDefault();
       var toggle = !Util.hasClass(sidebar, 'cd-side-nav--is-visible');
       if(toggle) expandSidebarItem();
