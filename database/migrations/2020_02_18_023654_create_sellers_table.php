@@ -17,6 +17,14 @@ class CreateSellersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('subsidiary_id');
             $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->text('address');
+            $table->string('rfc');
+            $table->string('account');
+            $table->string('personal_email');
+            $table->string('office_email');
+            $table->string('cellphone');
             $table->string('shift');
             $table->timestamps();
         });

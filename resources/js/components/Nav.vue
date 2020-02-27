@@ -51,9 +51,13 @@
               </li>
 
               <li class="cd-side__item"
-                  v-if="$auth.check() ? navVisible = true : navVisible = false"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.clients"
+                  v-bind:key="route.path"
               >
-                <a href="#0">Clientes<!--span class="cd-count">3</span--></a>
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
               </li>
 
               <li class="cd-side__item"
@@ -84,8 +88,12 @@
 
               <li class="cd-side__item"
                   v-if="$auth.check()"
+                  v-for="(route, key) in routes.sellers"
+                  v-bind:key="route.path"
               >
-                <a href="#0">Cobranza</a>
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
               </li>
             </ul>
 
@@ -136,6 +144,18 @@
             {
               name: 'Ventas',
               path: 'sales'
+            }
+          ],
+          sellers: [
+            {
+              name: 'Vendedores',
+              path: 'sellers'
+            }
+          ],
+          clients: [
+            {
+              name: 'Clientes',
+              path: 'clients'
             }
           ]
         }

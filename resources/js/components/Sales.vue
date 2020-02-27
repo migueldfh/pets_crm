@@ -71,6 +71,36 @@
                 </div>
               </div>
               <hr>
+              <div v-if="old_seller">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left" v-if="created_seller">
+                    <label for="client">Vendedor:</label>
+                    <input type="text" name="" value="" v-model="seller.name" readonly>
+                  </div>
+                  <div class="form-group col-md-6 text-left" v-else>
+                    <label for="inputEmail4">Vendedor <a href="#" data-toggle="tooltip" title="Agregar vendedor" @click.prevent="old_seller = false"><i class="fas fa-plus-circle"></i></a></label>
+                    <Dropdown :options="sellers" placeholder="Buscar..."></Dropdown>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="form-row">
+                  <div class="form-group col-md-8 text-left">
+                    <label for="name">Nombre:</label>
+                    <input type="text" v-model="seller_name" class="form-control" name="" value="">
+                  </div>
+                  <div class="form-group col-md-3 text-left">
+                    <label for="">Turno:</label>
+                    <input type="text" v-model="shift" class="form-control" name="" value="">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4 md-offset-3">
+                    <button type="button" class="btn btn-outline-primary" @click.prevent="addSeller()">Crear Vendedor</button>
+                  </div>
+                </div>
+              </div>
+              <hr>
               <div v-if="old_client">
                 <div class="form-row">
                   <div class="form-group col-md-6 text-left" v-if="created_client">
@@ -79,7 +109,7 @@
                   </div>
                   <div class="form-group col-md-6 text-left" v-else>
                     <label for="inputEmail4">Cliente <a href="#" data-toggle="tooltip" title="Agregar cliente" @click.prevent="old_client = false"><i class="fas fa-plus-circle"></i></a></label>
-                    <Dropdown :options="clients" placeholder="Buscar..."></Dropdown>
+                    <Dropdown :options="clients" v-on:selected="validateClient" placeholder="Buscar..."></Dropdown>
                   </div>
                 </div>
               </div>
@@ -98,8 +128,8 @@
                     <label for="person_type">Tipo persona:</label>
                     <select class="form-control custom-select" name="" v-model="person_type">
                       <option value="" disabled selected>Seleccionar...</option>
-                      <option value="">Fisica con actividad empresarial</option>
-                      <option value="">Moral</option>
+                      <option value="0">Fisica con actividad empresarial</option>
+                      <option value="1">Moral</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4 text-left">
@@ -128,7 +158,7 @@
                   </div>
                   <div class="form-group col-md-8 text-left">
                     <label for="">Vendedor:</label>
-                    <Dropdown :options="sellers" placeholder="Buscar..."></Dropdown>
+                    <Dropdown :options="sellers" v-on:selected="validateSelection" placeholder="Buscar..." ></Dropdown>
                   </div>
                 </div>
                 <div class="form-row">
@@ -207,14 +237,70 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4 offset-md-4">
-                    <button type="button" class="btn btn-outline-primary">Crear Cliente</button>
+                    <button type="button" class="btn btn-outline-primary" @click.prevent="addClient()">Crear Cliente</button>
                   </div>
                 </div>
               </div>
               <hr>
-              <div class="form-row">
-
+              <div v-if="old_pet">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left" v-if="created_pet">
+                    <label for="client">Mascota:</label>
+                    <input type="text" name="" value="" v-model="pet.name" readonly>
+                  </div>
+                  <div class="form-group col-md-6 text-left" v-else>
+                    <label for="inputEmail4">Mascota <a href="#" data-toggle="tooltip" title="Agregar mascota" @click.prevent="old_pet = false"><i class="fas fa-plus-circle"></i></a></label>
+                    <Dropdown :options="pets" placeholder="Buscar..."></Dropdown>
+                  </div>
+                </div>
               </div>
+              <div v-else>
+                <div class="form-row">
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Especie:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="kind">
+                  </div>
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Género:</label>
+                    <select class="" v-model="genus" class="form-control custom-select" name="">
+                      <option value="" disabled selected>Seleccionar...</option>
+                      <option value="H">Hembra</option>
+                      <option value="M">Macho</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Peso:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="weight">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Nombre:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="pet_name">
+                  </div>
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Familia:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="owner">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Nacimiento:</label>
+                    <input type="date" name="" value="" class="form-control" v-model="birth">
+                  </div>
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Muerte:</label>
+                    <input type="date" name="" value="" class="form-control" v-model="death">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <button type="button" class="btn btn-outline-primary" @click.prevent="addPet()">Crear Mascota</button>
+                  </div>
+                </div>
+              </div>
+              <hr>
+
             </form>
           </div>
           <div class="modal-footer">
@@ -245,14 +331,21 @@ export default {
       subSelected: false,
       old_client: true,
       created_client: false,
+      old_seller: true,
+      created_seller: false,
+      old_pet: true,
+      created_pet: false,
       subsidiaries: [],
       sales: [],
       clients: [],
-      client: {},
       sellers: [],
       countries: [],
       states: [],
       cities: [],
+      pets: [],
+      client: {},
+      seller: {},
+      pet: {},
       folio: null,
       subsidiary: null,
       type: null,
@@ -277,6 +370,15 @@ export default {
       credit_limit: null,
       max_credit_limit: null,
       date_sale: new Date(),
+      seller_name: null,
+      shift: null,
+      pet_name: null,
+      kind: null,
+      genus: null,
+      weight: null,
+      owner: null,
+      birth: null,
+      death: null
     }
   },
   mounted() {
@@ -304,6 +406,14 @@ export default {
     }
   },
   methods: {
+    validateSelection (selection) {
+      let u = this
+      u.seller = selection
+    },
+    validateClient (selection) {
+      let u = this
+      u.client = selection
+    },
     getSellers(s) {
       this.$http({
         url: `subsidiary/${s}/sellers`,
@@ -381,12 +491,79 @@ export default {
         url: `clients`,
         method: 'POST',
         data: {
-          subsidiary: this.new_subsidiary
+          seller_id: this.seller.id,
+          subsidiary_id: this.subsidiary,
+          type: this.type,
+          person_type: this.person_type,
+          category: this.category,
+          name: this.name,
+          rfc: this.rfc,
+          street: this.street,
+          ext_number: this.ext_number,
+          neighborhood: this.neighborhood,
+          city: this.city,
+          state: this.state,
+          zipcode: this.zipcode,
+          country: this.country,
+          currency: this.currency,
+          photo: null,
+          owner: this.owner,
+          vet: this.vet,
+          admon: this.admon,
+          discount: this.discount,
+          credit: this.credit,
+          max_days_credit: this.max_days_credit,
+          credit_limit: this.credit_limit,
+          max_credit_limit: this.max_credit_limit,
+          account_holder: this.account_holder,
+          account_number: this.account_number,
+          bank_name: this.bank_name,
         }
       }).then((res) => {
         this.client = res.data.client
         this.old_client = true
         this.created_client = true
+      }, () => {
+        this.has_error = true
+      })
+    },
+    addSeller() {
+      this.$http({
+        url: `sellers`,
+        method: 'POST',
+        data: {
+          subsidiary: this.subsidiary,
+          name: this.seller_name,
+          shift: this.shift
+        }
+      }).then((res) => {
+        this.seller = res.data.seller
+        this.old_seller = true
+        this.created_seller = true
+        this.getSellers(this.subsidiary)
+      }, () => {
+        this.has_error = true
+      })
+    },
+    addPet() {
+      this.$http({
+        url: `pets`,
+        method: 'POST',
+        data: {
+          subsidiary: this.subsidiary,
+          client: this.client.id,
+          name: this.pet_name,
+          kind: this.kind,
+          genus: this.genus,
+          weight: this.weight,
+          owner: this.owner,
+          birth: this.birth,
+          death: this.death
+        }
+      }).then((res) => {
+        this.pet = res.data.pet
+        this.old_pet = true
+        this.created_pet = true
       }, () => {
         this.has_error = true
       })
@@ -397,10 +574,13 @@ export default {
 			});
     },
     closeShowModal() {
-				$(document).ready(() => {
-						$(`#add_sale`).modal('hide');
-				});
-			},
+  		$(document).ready(() => {
+  				$(`#add_sale`).modal('hide');
+  		});
+      this.old_client = true
+      this.old_seller = true
+      this.old_pet = true
+		},
   }
 }
 </script>

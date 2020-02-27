@@ -26,6 +26,10 @@ class CreateInventoriesTable extends Migration
             $table->string('city');
             $table->string('photo')->nullable();
             $table->string('shop_name');
+            $table->float('operative_costs');
+            $table->float('selling_price');
+            $table->float('supplier_selling_price');
+            $table->float('other_selling_price');
             $table->string('account_holder')->nullable();
             $table->string('account_number')->nullable();
             $table->string('bank_name')->nullable();

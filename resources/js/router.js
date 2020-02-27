@@ -7,6 +7,8 @@ import Dashboard from './components/Dashboard'
 import AdminDashboard from './components/admin/Dashboard'
 import Subsidiary from './components/Subsidiary'
 import Sales from './components/Sales'
+import Seller from './components/Seller'
+import Client from './components/Client'
 
 // Routes
 const routes = [
@@ -46,6 +48,22 @@ const routes = [
     path: '/ventas',
     name: 'sales',
     component: Sales,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/vendedores',
+    name: 'sellers',
+    component: Seller,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/clientes',
+    name: 'clients',
+    component: Client,
     meta: {
       auth: true
     }

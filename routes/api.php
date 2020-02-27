@@ -38,6 +38,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('sales', 'SalesController@addSale');
 
     Route::get('subsidiary/{id}/sellers', 'SellerController@getSubsidiarySellers');
+    Route::post('sellers', 'SellerController@addSeller');
+
+    Route::post('pets', 'PetController@addPet');
 
     Route::get('countries', 'StateController@getCountries');
     Route::get('countries/{id}/states', 'StateController@getStates');
