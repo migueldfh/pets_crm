@@ -23,6 +23,7 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users', 'UserController@index')->middleware('isAdmin');
+
     Route::get('subsidiaries', 'SubsidiaryController@getSubsidiaries')->middleware('isAdmin');
     Route::post('subsidiaries', 'SubsidiaryController@addSubsidiary')->middleware('isAdmin');
     Route::get('subsidiary/{id}/sales', 'SalesController@getSubsidiarySale');
@@ -41,10 +42,21 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('sellers', 'SellerController@addSeller');
 
     Route::post('pets', 'PetController@addPet');
+    Route::get('subsidiary/{id}/pets', 'PetController@getPets');
 
     Route::get('countries', 'StateController@getCountries');
     Route::get('countries/{id}/states', 'StateController@getStates');
     Route::get('states/{id}/cities', 'StateController@getCities');
+
+    Route::get('products', 'ProductController@getProducts');
+    Route::post('products', 'ProductController@editProduct');
+    Route::get('subsidiary/{id}/products', 'InventoryController@getSubsidiaryInventory');
+    Route::post('subsidiary/{id}/products', 'InventoryController@postSubsidiaryProduct');
+
+    Route::get('services', 'ProductController@getServices');
+
+    Route::get('accesories', 'ProductController@getAccesories');
+    Route::get('accesories/pack', 'ProductController@getAccesoryPack');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

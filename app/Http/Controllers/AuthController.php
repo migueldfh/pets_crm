@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class AuthController extends Controller
     {
         $v = Validator::make($request->all(), [
             'email' => 'required|email|unique:users',
-            'password'  => 'required|min:3|confirmed',
+            'password'  => 'required|min:3',
         ]);
         if ($v->fails())
         {
@@ -25,9 +26,19 @@ class AuthController extends Controller
             ], 422);
         }
         $user = new User;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->role = 1;
         $user->save();
+
+        $seller = new Seller;
+        $seller->subsidiary_id = $request->zone;
+        $seller->name = $request->name;
+        $seller->account = $request->account;
+        $seller->office_email = $request->email;
+        $seller->save();
+
         return response()->json(['status' => 'success'], 200);
     }
 

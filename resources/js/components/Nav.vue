@@ -30,7 +30,7 @@
                   </a>
 
                 <ul class="cd-nav__sub-list">
-                  <li class="cd-nav__sub-item" v-if="$auth.check()">
+                  <li class="cd-nav__sub-item">
                       <a href="" @click.prevent="$auth.logout()">Logout</a>
                   </li>
                 </ul>
@@ -52,16 +52,6 @@
 
               <li class="cd-side__item"
                   v-if="$auth.check()"
-                  v-for="(route, key) in routes.clients"
-                  v-bind:key="route.path"
-              >
-                <router-link  :to="{ name : route.path }" :key="key">
-                    {{route.name}}
-                </router-link>
-              </li>
-
-              <li class="cd-side__item"
-                  v-if="$auth.check()"
                   v-for="(route, key) in routes.subsidiaries"
                   v-bind:key="route.path"
               >
@@ -72,8 +62,42 @@
 
               <li class="cd-side__item"
                   v-if="$auth.check()"
+                  v-for="(route, key) in routes.clients"
+                  v-bind:key="route.path"
               >
-                <a href="#0">Inventario</a>
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
+              </li>
+
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.inventory"
+                  v-bind:key="route.path"
+              >
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
+              </li>
+
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.products"
+                  v-bind:key="route.path"
+              >
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
+              </li>
+
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.services"
+                  v-bind:key="route.path"
+              >
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
               </li>
 
               <li class="cd-side__item"
@@ -98,6 +122,7 @@
             </ul>
 
             <ul class="cd-side__list js-cd-side__list">
+              <li><a href="" @click.prevent="$auth.logout()">Logout</a></li>
               <li class="cd-side__btn" v-if="!$auth.check()"><button class="reset" href="#0">Login</button></li>
               <li class="cd-side__btn" v-if="$auth.check()"><button class="reset" href="#0">Agregar Sucursal</button></li>
             </ul>
@@ -156,6 +181,24 @@
             {
               name: 'Clientes',
               path: 'clients'
+            }
+          ],
+          inventory: [
+            {
+              name: 'Inventario',
+              path: 'inventory'
+            }
+          ],
+          products: [
+            {
+              name: 'Productos',
+              path: 'product'
+            }
+          ],
+          services: [
+            {
+              name: 'Servicios',
+              path: 'service'
             }
           ]
         }

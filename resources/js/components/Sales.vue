@@ -1,6 +1,18 @@
 <template>
   <div class="container-fluid">
-    <h1 class="text-left">Ventas</h1>
+    <h1>Ventas</h1>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="has_error">
+        <p>Tuvimos problemas al traer datos, intenta de nuevo mas tarde.</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="success_message">
+        <p>Se agrego correctamente el dato.</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="success_message = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
       <div class="col">
         <label for="">Sucursal:</label>
@@ -28,16 +40,18 @@
               <tr>
                 <th scope="col">Folio</th>
                 <th scope="col">Cliente</th>
-                <th scope="col">Zona</th>
+                <th scope="col">Sucursal</th>
+                <th scope="col">Total</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="sale in sales">
                 <th scope="row"> {{ sale.folio }} </th>
-                <td>Venta 1</td>
-                <td>Zona 3 (Monterrey)</td>
-                <td><p class="text-success">Completado</p></td>
+                <td>{{ sale.client.name }}</td>
+                <td>{{ sale.subsidiary.name }}</td>
+                <td>${{ formatPrice(sale.total) }}</td>
+                <td><p class="">Abierto</p></td>
               </tr>
             </tbody>
           </table>
@@ -79,7 +93,7 @@
                   </div>
                   <div class="form-group col-md-6 text-left" v-else>
                     <label for="inputEmail4">Vendedor <a href="#" data-toggle="tooltip" title="Agregar vendedor" @click.prevent="old_seller = false"><i class="fas fa-plus-circle"></i></a></label>
-                    <Dropdown :options="sellers" placeholder="Buscar..."></Dropdown>
+                    <Dropdown :options="sellers" v-on:selected="validateSeller" placeholder="Buscar..."></Dropdown>
                   </div>
                 </div>
               </div>
@@ -250,7 +264,7 @@
                   </div>
                   <div class="form-group col-md-6 text-left" v-else>
                     <label for="inputEmail4">Mascota <a href="#" data-toggle="tooltip" title="Agregar mascota" @click.prevent="old_pet = false"><i class="fas fa-plus-circle"></i></a></label>
-                    <Dropdown :options="pets" placeholder="Buscar..."></Dropdown>
+                    <Dropdown :options="pets" v-on:selected="validatePet" placeholder="Buscar..."></Dropdown>
                   </div>
                 </div>
               </div>
@@ -300,12 +314,125 @@
                 </div>
               </div>
               <hr>
-
+              <div class="products">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="inputEmail4">Productos: </label>
+                    <Dropdown :options="inventories" :maxItem="10" v-on:selected="validateInventory" placeholder="Buscar..."></Dropdown>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Descripción</th>
+                          <th scope="col">Moneda</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Precio Unitario</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="product in uniqueProducts">
+                          <th scope="row"> {{ product.code }} </th>
+                          <td>{{ product.name }}</td>
+                          <td>{{ product.currency }}</td>
+                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity">&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
+                          <td> ${{ product.selling_price * product.quantity }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="services">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="inputEmail4">Servicios: </label>
+                    <Dropdown :options="services" :maxItem="10" v-on:selected="validateServices" placeholder="Buscar..."></Dropdown>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Descripción</th>
+                          <th scope="col">Moneda</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Precio Unitario</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="service in uniqueServices">
+                          <th scope="row"> {{ service.code }} </th>
+                          <td>{{ service.name }}</td>
+                          <td>{{ service.currency }}</td>
+                          <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity">&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><input type="text" v-model="service.selling_price" class="inputQ" name="" value=""></td>
+                          <td> ${{ service.selling_price * service.quantity }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="accesories">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="inputEmail4">Accesorios: </label>
+                    <Dropdown :options="accesories" :maxItem="10" v-on:selected="validateAccesories" placeholder="Buscar..."></Dropdown>
+                  </div>
+                  <div class="form-group col-md-4 text-left pt-4">
+                    <button type="button" @click.prevent="addAccesoriesPack()" name="button" class="btn btn-info">Agregar accesorios</button>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Descripción</th>
+                          <th scope="col">Moneda</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Precio Unitario</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="accesory in uniqueAccesories">
+                          <th scope="row"> {{ accesory.code }} </th>
+                          <td>{{ accesory.name }}</td>
+                          <td>{{ accesory.currency }}</td>
+                          <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity">&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><input type="text" v-model="accesory.selling_price" class="inputQ" name="" value=""></td>
+                          <td> ${{ accesory.selling_price * accesory.quantity }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="form row">
+                <hr>
+                <div class="colt">
+                  <h3>Cantidad total: {{ productsQuantity }}</h3>
+                </div>
+                <div class="col">
+                  <h3>Total: ${{ formatPrice(productsTotal) }}</h3>
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.prevent="closeShowModal()">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click.prevent="addSale()">Crear</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click.prevent="closeShowModal()">Cancelar</button>
+            <button type="button" class="btn btn-primary" @click.prevent="addFinalSale()">Crear</button>
           </div>
         </div>
       </div>
@@ -314,6 +441,7 @@
 </template>
 
 <script>
+import {VMoney} from 'v-money'
 import Dropdown from 'vue-simple-search-dropdown'
 import moment from 'moment-timezone'
 import 'moment/locale/es'
@@ -335,6 +463,8 @@ export default {
       created_seller: false,
       old_pet: true,
       created_pet: false,
+      has_error: false,
+      success_message: false,
       subsidiaries: [],
       sales: [],
       clients: [],
@@ -343,6 +473,14 @@ export default {
       states: [],
       cities: [],
       pets: [],
+      inventories: [],
+      products: [],
+      newProducts: [],
+      services: [],
+      servicios: [],
+      accesories: [],
+      accesorios: [],
+      accesoriesPack: [],
       client: {},
       seller: {},
       pet: {},
@@ -378,12 +516,24 @@ export default {
       weight: null,
       owner: null,
       birth: null,
-      death: null
+      death: null,
+      money: {
+        decimal: '.',
+        thousands: ',',
+        prefix: '$',
+        suffix: '',
+        precision: 0,
+        masked: false
+      },
     }
   },
+  directives: {money: VMoney},
   mounted() {
     this.getSubsidiaries()
     this.getCountries()
+    this.getServices()
+    this.getAccesories()
+    this.getAccesoryPack()
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     })
@@ -392,6 +542,7 @@ export default {
     subsidiary() {
       this.getDataSubsidiary(this.subsidiary)
       this.getSellers(this.subsidiary)
+      this.getInventorySubsidiary(this.subsidiary)
     },
     country() {
       this.getStates(this.country)
@@ -403,16 +554,135 @@ export default {
   computed: {
     parseDate() {
       return moment().tz('America/Mexico_City').format("MM-DD-YYYY")
-    }
+    },
+    uniqueProducts() {
+      return this.products.reduce((seed, current) => {
+        return Object.assign(seed, {
+          [current.code]: current
+        });
+      }, {});
+    },
+    uniqueServices() {
+      return this.servicios.reduce((seed, current) => {
+        return Object.assign(seed, {
+          [current.code]: current
+        });
+      }, {});
+    },
+    uniqueAccesories() {
+      return this.accesorios.reduce((seed, current) => {
+        return Object.assign(seed, {
+          [current.code]: current
+        });
+      }, {});
+    },
+    productsTotal() {
+      this.newProducts = {...this.uniqueProducts, ...this.uniqueServices, ...this.uniqueAccesories}
+      let total = [];
+
+      Object.entries(this.newProducts).forEach(([key, val]) => {
+          if (val.selling_price != undefined && val.selling_price != 0) {
+              total.push(val.selling_price * val.quantity) // the value of the current key.
+          }
+      });
+
+      return total.reduce(function(total, num){ return total + num }, 0);
+    },
+    productsQuantity() {
+      let total = [];
+
+      Object.entries(this.newProducts).forEach(([key, val]) => {
+          if (val.quantity != undefined && val.quantity != 0) {
+              total.push(val.quantity) // the value of the current key.
+          }
+      });
+
+      return total.reduce(function(total, num){ return total + num }, 0);
+    },
   },
   methods: {
+    formatPrice (value) {
+        let val = (value/1).toFixed(2)
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
+    parseValue(string) {
+        var pattern = /\$|\,/ig;
+        return parseInt(string.replace(pattern, ''))
+    },
     validateSelection (selection) {
       let u = this
       u.seller = selection
     },
+    validateSeller (selection) {
+      let u = this
+      u.seller = selection
+    },
+    validatePet (selection) {
+      let u = this
+      u.pet = selection
+    },
     validateClient (selection) {
       let u = this
       u.client = selection
+    },
+    validateInventory (selection) {
+      let u = this
+      let product = selection
+      u.products.push(product)
+    },
+    validateServices (selection) {
+      let u = this
+      let service = selection
+      u.servicios.push(service)
+    },
+    validateAccesories (selection) {
+      let u = this
+      let accesory = selection
+      u.accesorios.push(accesory)
+    },
+    getServices() {
+      this.$http({
+        url: `services`,
+        method: 'GET'
+      }).then((res) => {
+        this.services = res.data.services
+      }, () => {
+        this.has_error = true
+      })
+    },
+    getAccesories() {
+      this.$http({
+        url: `accesories`,
+        method: 'GET'
+      }).then((res) => {
+        this.accesories = res.data.accesories
+      }, () => {
+        this.has_error = true
+      })
+    },
+    getAccesoryPack() {
+      this.$http({
+        url: `accesories/pack`,
+        method: 'GET'
+      }).then((res) => {
+        this.accesoriesPack = res.data.accesoriesPack
+      }, () => {
+        this.has_error = true
+      })
+    },
+    addAccesoriesPack() {
+      this.accesorios = [...this.accesoriesPack]
+    },
+    getInventorySubsidiary(s) {
+      this.$http({
+        url: `subsidiary/${s}/products`,
+        method: 'GET'
+      }).then((res) => {
+        this.inventories = res.data.inventories
+        this.invent = true
+      }, () => {
+        this.has_error = true
+      })
     },
     getSellers(s) {
       this.$http({
@@ -430,6 +700,16 @@ export default {
         method: 'GET'
       }).then((res) => {
         this.clients = res.data.clients
+      }, () => {
+        this.has_error = true
+      })
+    },
+    getPets(c) {
+      this.$http({
+        url: `subsidiary/${c}/pets`,
+        method: 'GET'
+      }).then((res) => {
+        this.pets = res.data.pets
       }, () => {
         this.has_error = true
       })
@@ -482,6 +762,7 @@ export default {
         this.sales = res.data.sales
         this.subSelected = true
         this.getClients(d)
+        this.getPets(d)
       }, () => {
         this.has_error = true
       })
@@ -568,6 +849,28 @@ export default {
         this.has_error = true
       })
     },
+    addFinalSale() {
+      this.$http({
+        url: `sales`,
+        method: 'POST',
+        data: {
+          subsidiary: this.subsidiary,
+          client: this.client.id,
+          seller: this.seller.id,
+          pet: this.pet.id,
+          total: this.productsTotal,
+          quantity: this.productsQuantity,
+          products: this.newProducts,
+          folio: this.folio
+        }
+      }).then((res) => {
+        this.closeShowModal()
+        this.success_message = true
+        this.sales = res.data.sales
+      }, () => {
+        this.has_error = true
+      })
+    },
     addSale() {
       $(document).ready(() => {
 					$(`#add_sale`).modal('show');
@@ -580,10 +883,18 @@ export default {
       this.old_client = true
       this.old_seller = true
       this.old_pet = true
+      this.products = []
+      this.newProducts = []
 		},
   }
 }
 </script>
 
 <style lang="css" scoped>
+.table {
+  margin-bottom: 0;
+}
+.inputQ {
+  width: 100px;
+}
 </style>

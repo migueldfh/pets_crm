@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Seller;
+use App\Client;
+use App\Subsidiary;
+use App\Pet;
+
 class Sale extends Model
 {
     /**
@@ -16,11 +21,33 @@ class Sale extends Model
         'conditions', 'pickup', 'shift', 'code', 'quantity', 'products', 'discount',
         'subtotal', 'total', 'status'
     ];
+
+    protected $appends  = ['client', 'subsidiary', 'seller', 'pet'];
     /**
      * Get the post that owns the comment.
      */
-    public function post()
+    public function client()
     {
-        return $this->belongsTo('App\Post');
+        return $this->belongsTo('App\Client');
+    }
+
+    public function getClientAttribute()
+    {
+        return Client::find($this->client_id);
+    }
+
+    public function getSellerAttribute()
+    {
+        return Seller::find($this->seller_id);
+    }
+
+    public function getPetAttribute()
+    {
+        return Pet::find($this->pet_id);
+    }
+
+    public function getSubsidiaryAttribute()
+    {
+        return Subsidiary::find($this->subsidiary_id);
     }
 }

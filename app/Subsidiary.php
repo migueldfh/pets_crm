@@ -30,8 +30,18 @@ class Subsidiary extends Model
         return $this->hasMany('App\Client');
     }
 
+    public function pets()
+    {
+        return $this->hasMany('App\Pet');
+    }
+
     public function sellers()
     {
         return $this->hasMany('App\Seller');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany('App\Inventory');
     }
 }

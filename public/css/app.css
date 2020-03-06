@@ -16341,3 +16341,8 @@ a.text-dark:focus {
   padding: 0;
 }
 
+.text-component hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+

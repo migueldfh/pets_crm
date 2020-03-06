@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Pet;
+use App\Subsidiary;
 
 class PetController extends Controller
 {
+    public function getPets($id)
+    {
+      $pets = Subsidiary::find($id)->pets;
+
+      return response()->json(
+          [
+              'status' => 'success',
+              'pets' => $pets
+          ], Response::HTTP_OK);
+    }
+
     public function addPet(Request $request)
     {
       $pet = Pet::create([

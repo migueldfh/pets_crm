@@ -9,6 +9,10 @@ import Subsidiary from './components/Subsidiary'
 import Sales from './components/Sales'
 import Seller from './components/Seller'
 import Client from './components/Client'
+import Inventory from './components/Inventory'
+import Product from './components/Product'
+import Service from './components/Services'
+import Report from './components/Report'
 
 // Routes
 const routes = [
@@ -64,6 +68,38 @@ const routes = [
     path: '/clientes',
     name: 'clients',
     component: Client,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/inventario',
+    name: 'inventory',
+    component: Inventory,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/productos',
+    name: 'product',
+    component: Product,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/servicios',
+    name: 'service',
+    component: Service,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/reportes',
+    name: 'report',
+    component: Report,
     meta: {
       auth: true
     }
