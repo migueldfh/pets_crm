@@ -48,6 +48,7 @@
             <tbody>
               <tr v-for="sale in sales">
                 <th scope="row"> {{ sale.folio }} </th>
+                <!-- MTY - A, Tijuana - TJ, Saltillo - TS -->
                 <td>{{ sale.client.name }}</td>
                 <td>{{ sale.subsidiary.name }}</td>
                 <td>${{ formatPrice(sale.total) }}</td>

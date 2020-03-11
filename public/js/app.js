@@ -3927,6 +3927,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3971,6 +3980,10 @@ __webpack_require__.r(__webpack_exports__);
         services: [{
           name: 'Servicios',
           path: 'service'
+        }],
+        reports: [{
+          name: 'Reportes',
+          path: 'report'
         }]
       }
     };
@@ -4256,8 +4269,113 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      has_error: false,
+      services: null,
+      placs: null,
+      urnes: null,
+      products: [],
+      chartData: [['Mes', 'Servicios', 'Placas', 'Urnas'], ['Dic', 1000, 400, 200], ['Ene', 1170, 460, 250], ['Feb', 660, 1120, 300], ['Mar', 1030, 540, 350]],
+      chartOptions: {
+        chart: {
+          title: 'Ventas',
+          subtitle: ''
+        }
+      }
+    };
+  },
+  components: {
+    GChart: vue_google_charts__WEBPACK_IMPORTED_MODULE_0__["GChart"]
+  }
+});
 
 /***/ }),
 
@@ -4300,6 +4418,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -63468,6 +63587,29 @@ var render = function() {
                     1
                   )
                 : _vm._e()
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.routes.reports, function(route, key) {
+              return _vm.$auth.check()
+                ? _c(
+                    "li",
+                    { key: route.path, staticClass: "cd-side__item" },
+                    [
+                      _c(
+                        "router-link",
+                        { key: key, attrs: { to: { name: route.path } } },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(route.name) +
+                              "\n            "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             })
           ],
           2
@@ -64185,9 +64327,411 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("h1", [_vm._v("Reportes")]),
+    _vm._v(" "),
+    _vm.has_error
+      ? _c(
+          "div",
+          {
+            staticClass: "alert alert-danger alert-dismissible fade show",
+            attrs: { role: "alert" }
+          },
+          [
+            _c("p", [
+              _vm._v(
+                "Tuvimos problemas al traer datos, intenta de nuevo mas tarde."
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mt-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("p", [
+            _vm._v("Servicios:\n          "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.services,
+                    expression: "services"
+                  }
+                ],
+                attrs: { name: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.services = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { value: "", disabled: "", selected: "" } },
+                  [_vm._v("Seleccionar...")]
+                ),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cinco" } }, [_vm._v("0-5kg")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "diez" } }, [_vm._v("6-10kg")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "quince" } }, [
+                  _vm._v("11-15kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "veinte" } }, [
+                  _vm._v("16-20kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "veinticinco" } }, [
+                  _vm._v("21-25kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "treinta" } }, [
+                  _vm._v("26-30kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "treintaycinco" } }, [
+                  _vm._v("31-35kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cuarenta" } }, [
+                  _vm._v("36-40kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cuarentaycinco" } }, [
+                  _vm._v("41-45kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cincuenta" } }, [
+                  _vm._v("46-50kg")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cincuentaycinco" } }, [
+                  _vm._v("51-55kg")
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("p", [
+            _vm._v("Placas:\n          "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.placs,
+                    expression: "placs"
+                  }
+                ],
+                attrs: { name: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.placs = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { value: "", disabled: "", selected: "" } },
+                  [_vm._v("Seleccionar...")]
+                ),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cinco" } }, [
+                  _vm._v("Placas ID hueso rojo grande")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "diez" } }, [
+                  _vm._v("Placas ID hueso rosa grande")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "quince" } }, [
+                  _vm._v("Placas ID hueso azul grande")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "veinte" } }, [
+                  _vm._v("Placas ID corazon rosa grande")
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("p", [
+            _vm._v("Urnas:\n          "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.urnes,
+                    expression: "urnes"
+                  }
+                ],
+                attrs: { name: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.urnes = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { value: "", disabled: "", selected: "" } },
+                  [_vm._v("Seleccionar...")]
+                ),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "cinco", selected: "" } }, [
+                  _vm._v("Urna Biodegradable Corazon")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "diez", selected: "" } }, [
+                  _vm._v("Urna ecologica grande (retangular)")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "quince", selected: "" } }, [
+                  _vm._v("Urna arte nogal chica")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "veinte", selected: "" } }, [
+                  _vm._v("Urna de madera natural chica")
+                ])
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-responsive" }, [
+        _c("table", { staticClass: "table table-borderless table-hover" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.products, function(product) {
+              return _vm.showProducts
+                ? _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [
+                      _vm._v(" " + _vm._s(product.code) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.currency))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v("$"),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.buying_price,
+                            expression: "product.buying_price"
+                          }
+                        ],
+                        attrs: { type: "text", name: "", value: "" },
+                        domProps: { value: product.buying_price },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              product,
+                              "buying_price",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              product.quantity -= 1
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-minus-circle" })]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.quantity,
+                            expression: "product.quantity"
+                          }
+                        ],
+                        attrs: { type: "text", name: "", value: "" },
+                        domProps: { value: product.quantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(product, "quantity", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              product.quantity += 1
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-plus-circle" })]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button", name: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.saveProduct(
+                                product.buying_price,
+                                product.quantity,
+                                product.id
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("Guardar")]
+                      )
+                    ])
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col" },
+        [
+          _c("GChart", {
+            attrs: {
+              type: "ColumnChart",
+              data: _vm.chartData,
+              options: _vm.chartOptions
+            }
+          })
+        ],
+        1
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Código")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Descripción")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Moneda")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Costo Unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
