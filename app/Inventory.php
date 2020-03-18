@@ -23,6 +23,8 @@ class Inventory extends Model
     {
       $product = Product::where('code', $this->code)->first();
 
-      return $product->quantity;
+      if ($product) {
+        return $product->quantity;
+      }
     }
 }

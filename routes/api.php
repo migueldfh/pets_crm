@@ -57,6 +57,10 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('accesories', 'ProductController@getAccesories');
     Route::get('accesories/pack', 'ProductController@getAccesoryPack');
+
+    Route::get('subsidiary/{id}/type/{type}/prices', 'PriceController@getSubsidiaryPrices');
+
+    Route::get('services/{id}/prices', 'PriceController@getWeightPrices');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

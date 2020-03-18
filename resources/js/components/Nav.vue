@@ -128,6 +128,15 @@
                     {{route.name}}
                 </router-link>
               </li>
+              <li class="cd-side__item"
+                  v-if="$auth.check()"
+                  v-for="(route, key) in routes.prices"
+                  v-bind:key="route.path"
+              >
+                <router-link  :to="{ name : route.path }" :key="key">
+                    {{route.name}}
+                </router-link>
+              </li>
             </ul>
 
             <ul class="cd-side__list js-cd-side__list">
@@ -214,6 +223,12 @@
             {
               name: 'Reportes',
               path: 'report'
+            }
+          ],
+          prices: [
+            {
+              name: 'Lista de Precios',
+              path: 'price'
             }
           ]
         }

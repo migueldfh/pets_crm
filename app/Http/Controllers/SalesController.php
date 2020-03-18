@@ -31,6 +31,7 @@ class SalesController extends Controller
       'quantity' => $request->quantity,
       'products' => json_encode($request->products),
       'folio' => $request->folio,
+      'total' => $request->total,
       'currency' => 'MXN',
       'status' => 'Abierto'
     ]);

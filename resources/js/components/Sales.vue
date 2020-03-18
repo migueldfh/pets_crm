@@ -100,13 +100,47 @@
               </div>
               <div v-else>
                 <div class="form-row">
-                  <div class="form-group col-md-8 text-left">
-                    <label for="name">Nombre:</label>
-                    <input type="text" v-model="seller_name" class="form-control" name="" value="">
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Nombre:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="seller_name">
                   </div>
-                  <div class="form-group col-md-3 text-left">
-                    <label for="">Turno:</label>
-                    <input type="text" v-model="shift" class="form-control" name="" value="">
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Apellido Paterno:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="first_name_seller">
+                  </div>
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Apellido Materno:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="last_name_seller">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Email Personal:</label>
+                    <input type="email" name="" value="" class="form-control" v-model="personal_email">
+                  </div>
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Email empresa:</label>
+                    <input type="email" name="" value="" class="form-control" v-model="office_email">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">Cuenta:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="account_seller">
+                  </div>
+                  <div class="form-group col-md-4 text-left">
+                    <label for="">RFC:</label>
+                    <input type="text" name="" value="" class="form-control" v-model="rfc_seller">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Dirección:</label>
+                    <textarea name="name" class="form-control" rows="8" cols="80" v-model="address_seller"></textarea>
+                  </div>
+                  <div class="form-group col-md-6 text-left">
+                    <label for="">Celular:</label>
+                    <input type="number" class="form-control" name="" value="" v-model="cellphone_seller">
                   </div>
                 </div>
                 <div class="form-row">
@@ -134,9 +168,9 @@
                     <label for="type">Tipo de Cliente:</label>
                     <select class="form-control custom-select" name="" v-model="type">
                       <option value="" disabled selected>Seleccionar...</option>
-                      <option value="Veterinaria Clientes">Veterinaria Clientes</option>
-                      <option value="Veterinaria Proveedor">Veterinaria Proveedor</option>
-                      <option value="Prospecto">Prospecto</option>
+                      <option value="1">Particular</option>
+                      <option value="2">Veterinaria Clientes</option>
+                      <option value="3">Prospecto</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4 text-left">
@@ -285,7 +319,20 @@
                   </div>
                   <div class="form-group col-md-4 text-left">
                     <label for="">Peso:</label>
-                    <input type="text" name="" value="" class="form-control" v-model="weight">
+                    <select class="" name="" v-model="weight">
+                      <option value="" disabled selected>Seleccionar...</option>
+                      <option value="0-5kg">0-5kg</option>
+                      <option value="6-10kg">6-10kg</option>
+                      <option value="11-15kg">11-15kg</option>
+                      <option value="16-20kg">16-20kg</option>
+                      <option value="21-25kg">21-25kg</option>
+                      <option value="26-30kg">26-30kg</option>
+                      <option value="31-35kg">31-35kg</option>
+                      <option value="36-40kg">36-40kg</option>
+                      <option value="41-45kg">41-45kg</option>
+                      <option value="46-50kg">46-50kg</option>
+                      <option value="51-55kg">51-55kg</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-row">
@@ -315,40 +362,6 @@
                 </div>
               </div>
               <hr>
-              <div class="products">
-                <div class="form-row">
-                  <div class="form-group col-md-6 text-left">
-                    <label for="inputEmail4">Productos: </label>
-                    <Dropdown :options="inventories" :maxItem="10" v-on:selected="validateInventory" placeholder="Buscar..."></Dropdown>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="table-responsive">
-                    <table class="table table-borderless table-hover">
-                      <thead>
-                        <tr>
-                          <th scope="col">Código</th>
-                          <th scope="col">Descripción</th>
-                          <th scope="col">Moneda</th>
-                          <th scope="col">Cantidad</th>
-                          <th scope="col">Precio Unitario</th>
-                          <th scope="col">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="product in uniqueProducts">
-                          <th scope="row"> {{ product.code }} </th>
-                          <td>{{ product.name }}</td>
-                          <td>{{ product.currency }}</td>
-                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity">&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
-                          <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
-                          <td> ${{ product.selling_price * product.quantity }} </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
               <div class="services">
                 <div class="form-row">
                   <div class="form-group col-md-6 text-left">
@@ -377,6 +390,40 @@
                           <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity">&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" v-model="service.selling_price" class="inputQ" name="" value=""></td>
                           <td> ${{ service.selling_price * service.quantity }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="products">
+                <div class="form-row">
+                  <div class="form-group col-md-6 text-left">
+                    <label for="inputEmail4">Productos: </label>
+                    <Dropdown :options="inventories" :maxItem="10" v-on:selected="validateInventory" placeholder="Buscar..."></Dropdown>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Descripción</th>
+                          <th scope="col">Moneda</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Precio Unitario</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="product in uniqueProducts">
+                          <th scope="row"> {{ product.code }} </th>
+                          <td>{{ product.name }}</td>
+                          <td>{{ product.currency }}</td>
+                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity">&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
+                          <td> ${{ product.selling_price * product.quantity }} </td>
                         </tr>
                       </tbody>
                     </table>
@@ -482,10 +529,11 @@ export default {
       accesories: [],
       accesorios: [],
       accesoriesPack: [],
+      price: {},
       client: {},
       seller: {},
       pet: {},
-      folio: null,
+      folio: 'TJ-001',
       subsidiary: null,
       type: null,
       person_type: null,
@@ -511,6 +559,14 @@ export default {
       date_sale: new Date(),
       seller_name: null,
       shift: null,
+      first_name_seller: null,
+      last_name_seller: null,
+      rfc_seller: null,
+      address_seller: null,
+      account_seller: null,
+      personal_email: null,
+      office_email: null,
+      cellphone_seller: null,
       pet_name: null,
       kind: null,
       genus: null,
@@ -635,11 +691,23 @@ export default {
       let u = this
       let service = selection
       u.servicios.push(service)
+
+      this.getPrices(service.code)
     },
     validateAccesories (selection) {
       let u = this
       let accesory = selection
       u.accesorios.push(accesory)
+    },
+    getPrices(s) {
+      this.$http({
+        url: `services/${s}/prices`,
+        method: 'GET'
+      }).then((res) => {
+        this.price = res.data.price
+      }, () => {
+        this.has_error = true
+      })
     },
     getServices() {
       this.$http({
@@ -816,7 +884,15 @@ export default {
         data: {
           subsidiary: this.subsidiary,
           name: this.seller_name,
-          shift: this.shift
+          shift: this.shift,
+          first_name: this.first_name_seller,
+          last_name: this.last_name_seller,
+          address: this.address_seller,
+          rfc: this.rfc_seller,
+          account: this.account_seller,
+          personal_email: this.personal_email,
+          office_email: this.office_email,
+          cellphone: this.cellphone_seller
         }
       }).then((res) => {
         this.seller = res.data.seller

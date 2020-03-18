@@ -13,6 +13,7 @@ import Inventory from './components/Inventory'
 import Product from './components/Product'
 import Service from './components/Services'
 import Report from './components/Report'
+import Price from './components/Prices'
 
 // Routes
 const routes = [
@@ -100,6 +101,14 @@ const routes = [
     path: '/reportes',
     name: 'report',
     component: Report,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/lista-precios',
+    name: 'price',
+    component: Price,
     meta: {
       auth: true
     }

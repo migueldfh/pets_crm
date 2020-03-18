@@ -44,4 +44,9 @@ class Subsidiary extends Model
     {
         return $this->hasMany('App\Inventory');
     }
+
+    public function prices()
+    {
+        return $this->hasMany('App\Price');
+    }
 }
