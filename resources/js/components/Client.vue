@@ -355,6 +355,7 @@ export default {
         this.client = res.data.client
         this.old_client = true
         this.created_client = true
+        this.closeShowModal()
       }, () => {
         this.has_error = true
       })
