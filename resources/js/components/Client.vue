@@ -35,6 +35,7 @@
               <th scope="col">Categoria</th>
               <th scope="col">Tipo de Persona</th>
               <th scope="col">RFC</th>
+              <th scope="col">Dirección</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +46,7 @@
               <td v-if="client.person_type == 0">Fisica</td>
               <td v-else>Moral</td>
               <td>{{ client.rfc }}</td>
+              <td>{{ client.street }} #{{ client.ext_number }}, {{ client.neighborhood }}, {{ client.zipcode }}</td>
             </tr>
           </tbody>
         </table>
