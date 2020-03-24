@@ -185,7 +185,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.prevent="closeShowModal()">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click.prevent="createSeller()">Crear</button>
+            <button type="button" class="btn btn-primary" @click.prevent="createClient()">Crear</button>
           </div>
         </div>
       </div>
