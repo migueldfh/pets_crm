@@ -49,7 +49,7 @@ class ClientController extends Controller
         'max_credit_limit' => $request->input('max_credit_limit'),
         'account_holder' => $request->input('account_holder'),
         'account_number' => $request->input('account_number'),
-        'bank_name' => $request->input('bank_name')
+        'bank_name' => $request->input('bank_name'),
         'telvet' => $request->input('telvet'),
         'responsable' => $request->input('responsable')
       ]);
