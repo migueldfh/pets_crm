@@ -50,6 +50,8 @@ class ClientController extends Controller
         'account_holder' => $request->input('account_holder'),
         'account_number' => $request->input('account_number'),
         'bank_name' => $request->input('bank_name')
+        'telvet' => $request->input('telvet'),
+        'responsable' => $request->input('responsable')
       ]);
 
       if (!$client) {

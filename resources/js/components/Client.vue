@@ -102,6 +102,16 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-4 text-left">
+                <label for="">Tel. Veterinaria:</label>
+                <input type="text" name="" value="" class="form-control" v-model="telvet">
+              </div>
+              <div class="form-group col-md-4 text-left">
+                <label for="">Responsable:</label>
+                <input type="text" name="" value="" class="form-control" v-model="responsable">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4 text-left">
                 <label for="">RFC:</label>
                 <input type="text" name="" value="" class="form-control" v-model="rfc">
               </div>
@@ -235,6 +245,8 @@ export default {
       max_days_credit: null,
       credit_limit: null,
       max_credit_limit: null,
+      telvet: null,
+      responsable: null,
       success_message: false,
       has_error: false,
     }
@@ -352,6 +364,8 @@ export default {
           account_holder: this.account_holder,
           account_number: this.account_number,
           bank_name: this.bank_name,
+          telvet: this.telvet,
+          responsable: this.responsable
         }
       }).then((res) => {
         this.client = res.data.client
