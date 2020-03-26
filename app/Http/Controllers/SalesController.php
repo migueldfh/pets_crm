@@ -33,7 +33,8 @@ class SalesController extends Controller
       'folio' => $request->folio,
       'total' => $request->total,
       'currency' => 'MXN',
-      'status' => 'Abierto'
+      'status' => 'Abierto',
+      'conditions' => NULL
     ]);
 
     $sales = Subsidiary::find($request->subsidiary)->sales;
