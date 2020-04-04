@@ -387,7 +387,7 @@
                           <th scope="row"> {{ service.code }} </th>
                           <td>{{ service.name }}</td>
                           <td>{{ service.currency }}</td>
-                          <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity">&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity" disabled>&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" v-model="service.selling_price" class="inputQ" name="" value=""></td>
                           <td> ${{ service.selling_price * service.quantity }} </td>
                         </tr>
@@ -421,7 +421,7 @@
                           <th scope="row"> {{ product.code }} </th>
                           <td>{{ product.name }}</td>
                           <td>{{ product.currency }}</td>
-                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity">&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity" disabled>&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
                           <td> ${{ product.selling_price * product.quantity }} </td>
                         </tr>
@@ -458,7 +458,7 @@
                           <th scope="row"> {{ accesory.code }} </th>
                           <td>{{ accesory.name }}</td>
                           <td>{{ accesory.currency }}</td>
-                          <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity">&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity" disabled>&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" v-model="accesory.selling_price" class="inputQ" name="" value=""></td>
                           <td> ${{ accesory.selling_price * accesory.quantity }} </td>
                         </tr>
