@@ -43,6 +43,7 @@
                 <th scope="col">Sucursal</th>
                 <th scope="col">Total</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -52,12 +53,17 @@
                 <td>{{ sale.client.name }}</td>
                 <td>{{ sale.subsidiary.name }}</td>
                 <td>${{ formatPrice(sale.total) }}</td>
-                <td><p class="">Abierto</p></td>
+                <td><span :class="sale.status"=>{{ sale.status }}</span></td>
+                <td><a href="#" @click="getSingleSale(sale.id)" class="btn btn-primary">Editar</a></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+    </div>
+
+    <div v-if="singleSale">
+
     </div>
 
     <div id="add_sale" class="modal fade modal-fixed-footer" tabindex="-1" role="dialog">
@@ -505,6 +511,7 @@ export default {
     return {
       loading: true,
       subSelected: false,
+      singleSale: false,
       old_client: true,
       created_client: false,
       old_seller: true,
@@ -533,7 +540,8 @@ export default {
       client: {},
       seller: {},
       pet: {},
-      folio: 'TJ-001',
+      sale: {},
+      folio: 'TJ-',
       subsidiary: null,
       type: null,
       person_type: null,
@@ -966,6 +974,17 @@ export default {
       this.products = []
       this.newProducts = []
 		},
+    getSingleSale(i) {
+      this.$http({
+        url: `sales/${i}`,
+        method: 'GET'
+      }).then((res) => {
+        this.sale = res.data.sale
+        this.singleSale =  true
+      }, () => {
+        this.has_error = true
+      })
+    }
   }
 }
 </script>
@@ -976,5 +995,17 @@ export default {
 }
 .inputQ {
   width: 100px;
+}
+.Abierto {
+  color: #fff;
+  background-color: #28a745;
+}
+.Cerrado {
+  color: #fff;
+  background-color: #dc3545;
+}
+.Pendiente {
+  color: #212529;
+  background-color: #ffc107;
 }
 </style>

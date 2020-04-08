@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('subsidiary/{id}/clients', 'ClientController@getSubsidiaryClient');
     Route::post('clients', 'ClientController@addClient');
 
+    Route::get('sales/{id}', 'SalesController@getSingleSale');
     Route::post('sales', 'SalesController@addSale');
 
     Route::get('subsidiary/{id}/sellers', 'SellerController@getSubsidiarySellers');

@@ -45,4 +45,16 @@ class SalesController extends Controller
             'sales' => $sales
         ], Response::HTTP_OK);
   }
+
+  public function getSingleSale($id)
+  {
+    $sale = Sale::find($id);
+
+    return response()->json(
+      [
+          'status' => 'success',
+          'sale' => $sale
+      ], Response::HTTP_OK);
+    );
+  }
 }
