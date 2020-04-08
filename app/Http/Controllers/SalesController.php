@@ -55,6 +55,5 @@ class SalesController extends Controller
           'status' => 'success',
           'sale' => $sale
       ], Response::HTTP_OK);
-    );
   }
 }
