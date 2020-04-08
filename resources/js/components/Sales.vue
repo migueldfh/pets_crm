@@ -53,7 +53,7 @@
                 <td>{{ sale.client.name }}</td>
                 <td>{{ sale.subsidiary.name }}</td>
                 <td>${{ formatPrice(sale.total) }}</td>
-                <td><span :class="sale.status"=>{{ sale.status }}</span></td>
+                <td><span :class="sale.status">{{ sale.status }}</span></td>
                 <td><a href="#" @click="getSingleSale(sale.id)" class="btn btn-primary">Editar</a></td>
               </tr>
             </tbody>
@@ -63,7 +63,413 @@
     </div>
 
     <div v-if="singleSale">
-
+      <form>
+        <div class="form-row justify-content-between">
+          <div class="form-group col-md-2 text-left">
+            <label for="folio">Folio:</label>
+            <input type="text" class="form-control" v-model="folio" id="folio">
+          </div>
+          <div class="form-group col-md-4 text-left">
+            <label for="fecha">Fecha:</label>
+            <input type="text" class="form-control" v-model="parseDate" id="fecha">
+          </div>
+          <div class="form-group col-md-4 text-left">
+            <label for="venc">Vencimiento:</label>
+            <input type="text" class="form-control" id="venc">
+          </div>
+        </div>
+        <hr>
+        <div v-if="old_seller">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left" v-if="created_seller">
+              <label for="client">Vendedor:</label>
+              <input type="text" name="" value="" v-model="seller.name" readonly>
+            </div>
+            <div class="form-group col-md-6 text-left" v-else>
+              <label for="inputEmail4">Vendedor <a href="#" data-toggle="tooltip" title="Agregar vendedor" @click.prevent="old_seller = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="sellers" v-on:selected="validateSeller" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="">Nombre:</label>
+              <input type="text" name="" value="" class="form-control" v-model="seller_name">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="">Apellido Paterno:</label>
+              <input type="text" name="" value="" class="form-control" v-model="first_name_seller">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="">Apellido Materno:</label>
+              <input type="text" name="" value="" class="form-control" v-model="last_name_seller">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="">Email Personal:</label>
+              <input type="email" name="" value="" class="form-control" v-model="personal_email">
+            </div>
+            <div class="form-group col-md-6 text-left">
+              <label for="">Email empresa:</label>
+              <input type="email" name="" value="" class="form-control" v-model="office_email">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="">Cuenta:</label>
+              <input type="text" name="" value="" class="form-control" v-model="account_seller">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="">RFC:</label>
+              <input type="text" name="" value="" class="form-control" v-model="rfc_seller">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="">Dirección:</label>
+              <textarea name="name" class="form-control" rows="8" cols="80" v-model="address_seller"></textarea>
+            </div>
+            <div class="form-group col-md-6 text-left">
+              <label for="">Celular:</label>
+              <input type="number" class="form-control" name="" value="" v-model="cellphone_seller">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 md-offset-3">
+              <button type="button" class="btn btn-outline-primary" @click.prevent="addSeller()">Crear Vendedor</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div v-if="old_client">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left" v-if="created_client">
+              <label for="client">Cliente:</label>
+              <input type="text" name="" value="" v-model="client.name" readonly>
+            </div>
+            <div class="form-group col-md-6 text-left" v-else>
+              <label for="inputEmail4">Cliente <a href="#" data-toggle="tooltip" title="Agregar cliente" @click.prevent="old_client = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="clients" v-on:selected="validateClient" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="type">Tipo de Cliente:</label>
+              <select class="form-control custom-select" name="" v-model="type">
+                <option value="" disabled selected>Seleccionar...</option>
+                <option value="1">Particular</option>
+                <option value="2">Veterinaria Clientes</option>
+                <option value="3">Prospecto</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="person_type">Tipo persona:</label>
+              <select class="form-control custom-select" name="" v-model="person_type">
+                <option value="" disabled selected>Seleccionar...</option>
+                <option value="0">Fisica con actividad empresarial</option>
+                <option value="1">Moral</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="person_type">Moneda:</label>
+              <select class="form-control custom-select" name="" v-model="currency">
+                <option value="" disabled selected>Seleccionar...</option>
+                <option value="MXN">MXN</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-3 text-left">
+              <label for="">Categoría:</label>
+              <input type="text" name="" value="" class="form-control" v-model="category">
+            </div>
+            <div class="form-group col-md-8 text-left">
+              <label for="name">Nombre:</label>
+              <input type="text" v-model="name" class="form-control" name="" value="">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="">RFC:</label>
+              <input type="text" name="" value="" class="form-control" v-model="rfc">
+            </div>
+            <div class="form-group col-md-8 text-left">
+              <label for="">Vendedor:</label>
+              <Dropdown :options="sellers" v-on:selected="validateSelection" placeholder="Buscar..." ></Dropdown>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="street">Calle:</label>
+              <input type="text" name="" value="" class="form-control" v-model="street" id="street">
+            </div>
+            <div class="form-group col-md-3 text-left">
+              <label for="int_number">No. Int.:</label>
+              <input type="text" name="" value="" class="form-control" id="int_number">
+            </div>
+            <div class="form-group col-md-3 text-left">
+              <label for="ext_number">No. Ext.:</label>
+              <input type="text" name="" value="" class="form-control" v-model="ext_number" id="ext_number">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="neighborhood">Colonia:</label>
+              <input type="text" id="neighborhood" name="" class="form-control" value="" v-model="neighborhood">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="refere">Referencia:</label>
+              <input type="text" name="" class="form-control" value="" id="refere">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="cp">Código Postal:</label>
+              <input type="text" name="" class="form-control" value="" v-model="zipcode" id="cp">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="country">País:</label>
+              <select class="" name="" class="form-control custom-select" v-model="country">
+                <option value="" v-for="country in countries" :value="country.id">{{ country.name }}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="state">Estado:</label>
+              <select class="" name="" class="form-control custom-select" v-model="state">
+                <option value="" v-for="state in states" :value="state.id">{{ state.name }}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="city">Ciudad:</label>
+              <select class="" name="" class="form-control custom-select" v-model="city">
+                <option value="" v-for="city in cities" :value="city.id">{{ city.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-2 text-left">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                  Crédito
+                </label>
+              </div>
+            </div>
+            <div class="form-group col-md-3 text-left">
+              <label for="days">Días de crédito:</label>
+              <input type="number" name="" value="" v-model="max_days_credit">
+            </div>
+            <div class="form-group col-md-2 text-left">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                  Limite de Crédito
+                </label>
+              </div>
+            </div>
+            <div class="form-group col-md-2 text-left">
+              <label for="days">Máximo:</label>
+              <input type="text" name="" value="" v-model="max_credit_limit">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4 offset-md-4">
+              <button type="button" class="btn btn-outline-primary" @click.prevent="addClient()">Crear Cliente</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div v-if="old_pet">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left" v-if="created_pet">
+              <label for="client">Mascota:</label>
+              <input type="text" name="" value="" v-model="pet.name" readonly>
+            </div>
+            <div class="form-group col-md-6 text-left" v-else>
+              <label for="inputEmail4">Mascota <a href="#" data-toggle="tooltip" title="Agregar mascota" @click.prevent="old_pet = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="pets" v-on:selected="validatePet" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="form-row">
+            <div class="form-group col-md-4 text-left">
+              <label for="">Especie:</label>
+              <input type="text" name="" value="" class="form-control" v-model="kind">
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="">Género:</label>
+              <select class="" v-model="genus" class="form-control custom-select" name="">
+                <option value="" disabled selected>Seleccionar...</option>
+                <option value="H">Hembra</option>
+                <option value="M">Macho</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 text-left">
+              <label for="">Peso:</label>
+              <select class="" name="" v-model="weight">
+                <option value="" disabled selected>Seleccionar...</option>
+                <option value="0-5kg">0-5kg</option>
+                <option value="6-10kg">6-10kg</option>
+                <option value="11-15kg">11-15kg</option>
+                <option value="16-20kg">16-20kg</option>
+                <option value="21-25kg">21-25kg</option>
+                <option value="26-30kg">26-30kg</option>
+                <option value="31-35kg">31-35kg</option>
+                <option value="36-40kg">36-40kg</option>
+                <option value="41-45kg">41-45kg</option>
+                <option value="46-50kg">46-50kg</option>
+                <option value="51-55kg">51-55kg</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="">Nombre:</label>
+              <input type="text" name="" value="" class="form-control" v-model="pet_name">
+            </div>
+            <div class="form-group col-md-6 text-left">
+              <label for="">Familia:</label>
+              <input type="text" name="" value="" class="form-control" v-model="owner">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="">Nacimiento:</label>
+              <input type="date" name="" value="" class="form-control" v-model="birth">
+            </div>
+            <div class="form-group col-md-6 text-left">
+              <label for="">Muerte:</label>
+              <input type="date" name="" value="" class="form-control" v-model="death">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <button type="button" class="btn btn-outline-primary" @click.prevent="addPet()">Crear Mascota</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="services">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Servicios: </label>
+              <Dropdown :options="services" :maxItem="10" v-on:selected="validateServices" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="table-responsive">
+              <table class="table table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Moneda</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="service in uniqueServices">
+                    <th scope="row"> {{ service.code }} </th>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.currency }}</td>
+                    <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity" disabled>&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                    <td><input type="text" v-model="service.selling_price" class="inputQ" name="" value=""></td>
+                    <td> ${{ service.selling_price * service.quantity }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="products">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Productos: </label>
+              <Dropdown :options="inventories" :maxItem="10" v-on:selected="validateInventory" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="table-responsive">
+              <table class="table table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Moneda</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="product in uniqueProducts">
+                    <th scope="row"> {{ product.code }} </th>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.currency }}</td>
+                    <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity" disabled>&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                    <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
+                    <td> ${{ product.selling_price * product.quantity }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="accesories">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Accesorios: </label>
+              <Dropdown :options="accesories" :maxItem="10" v-on:selected="validateAccesories" placeholder="Buscar..."></Dropdown>
+            </div>
+            <div class="form-group col-md-4 text-left pt-4">
+              <button type="button" @click.prevent="addAccesoriesPack()" name="button" class="btn btn-info">Agregar accesorios</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="table-responsive">
+              <table class="table table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Moneda</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="accesory in uniqueAccesories">
+                    <th scope="row"> {{ accesory.code }} </th>
+                    <td>{{ accesory.name }}</td>
+                    <td>{{ accesory.currency }}</td>
+                    <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity" disabled>&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                    <td><input type="text" v-model="accesory.selling_price" class="inputQ" name="" value=""></td>
+                    <td> ${{ accesory.selling_price * accesory.quantity }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form row">
+          <hr>
+          <div class="colt">
+            <h3>Cantidad total: {{ productsQuantity }}</h3>
+          </div>
+          <div class="col">
+            <h3>Total: ${{ formatPrice(productsTotal) }}</h3>
+          </div>
+        </div>
+      </form>
     </div>
 
     <div id="add_sale" class="modal fade modal-fixed-footer" tabindex="-1" role="dialog">

@@ -50,6 +50,14 @@ class SalesController extends Controller
   {
     $sale = Sale::find($id);
 
+    dd(json_decode($sale->products));
+
+    $data = [
+      'pet' => $sale->pet,
+      'client' => $sale->client,
+      'seller' => $sale->seller,
+    ];
+
     return response()->json(
       [
           'status' => 'success',
