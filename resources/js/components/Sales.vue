@@ -47,7 +47,7 @@
             </thead>
             <tbody>
               <tr v-for="sale in sales">
-                <th scope="row"> {{ sale.folio }} </th>
+                <th scope="row"> {{ sale.folio }} {{ sale.id }} </th>
                 <!-- MTY - A, Tijuana - TJ, Saltillo - TS -->
                 <td>{{ sale.client.name }}</td>
                 <td>{{ sale.subsidiary.name }}</td>
@@ -927,6 +927,9 @@ export default {
       })
     },
     addFinalSale() {
+      if (this.subsidiary == 'Tijuana') {
+        let fol = 'TJ-'
+      }
       this.$http({
         url: `sales`,
         method: 'POST',
@@ -938,7 +941,7 @@ export default {
           total: this.productsTotal,
           quantity: this.productsQuantity,
           products: this.newProducts,
-          folio: this.folio
+          folio: fol
         }
       }).then((res) => {
         this.closeShowModal()
