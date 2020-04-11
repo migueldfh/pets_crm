@@ -1391,7 +1391,6 @@ export default {
         this.sale = res.data.sale
         this.subSelected = false
         this.singleSale =  true
-        this.
       }, () => {
         this.has_error = true
       })
