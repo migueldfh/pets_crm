@@ -49,8 +49,7 @@ class SalesController extends Controller
   public function getSingleSale($id)
   {
     $sale = Sale::find($id);
-
-    dd(json_decode($sale->products));
+    $new_products = json_decode($sale->products);
 
     $data = [
       'pet' => $sale->pet,

@@ -470,6 +470,9 @@
           </div>
         </div>
       </form>
+      <ul>
+        <li  v-for="product in sale.products">{{ product }}</li>
+      </ul>
     </div>
 
     <div id="add_sale" class="modal fade modal-fixed-footer" tabindex="-1" role="dialog">
@@ -1371,22 +1374,24 @@ export default {
 			});
     },
     closeShowModal() {
-  		$(document).ready(() => {
-  				$(`#add_sale`).modal('hide');
-  		});
+      $(document).ready(() => {
+        $(`#add_sale`).modal('hide');
+      });
       this.old_client = true
       this.old_seller = true
       this.old_pet = true
       this.products = []
       this.newProducts = []
-		},
+    },
     getSingleSale(i) {
       this.$http({
         url: `sales/${i}`,
         method: 'GET'
       }).then((res) => {
         this.sale = res.data.sale
+        this.subSelected = false
         this.singleSale =  true
+        this.
       }, () => {
         this.has_error = true
       })
