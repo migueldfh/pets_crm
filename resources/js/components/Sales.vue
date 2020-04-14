@@ -69,7 +69,11 @@
             <label for="folio">Folio:{{ sale.folio }}{{ sale.id }} </label>
           </div>
           <div class="form-group col-md-4 text-left">
-            <label for="fecha">Fecha: {{ parseDate }}</label>
+            <label for="fecha">Fecha Ticket: {{ created_at }}</label>
+          </div>
+          <div class="form-group col-md-4 text-left">
+            <label for="fecha">Fecha Recolección: {{ pickup }}</label>
+            <input type="date" name="" value="" v-model="pickup">
           </div>
           <div class="form-group col-md-4 text-left">
             <label for="venc">Status:</label>
@@ -852,6 +856,8 @@ export default {
       birth: null,
       death: null,
       status: null,
+      pickup: null,
+      created_at: null,
       money: {
         decimal: '.',
         thousands: ',',
@@ -1274,19 +1280,22 @@ export default {
         this.subSelected = false
         this.singleSale =  true
 
-        this.products.push(this.sale.products)
+        this.created_at = moment(this.sale.created_at).format("MM-DD-YYYY")
+        this.pickup = moment(this.sale.pickup).format("MM-DD-YYYY")
       }, () => {
         this.has_error = true
       })
     },
     editSingleSale() {
+      this.pickup = moment(this.pickup).format("YYYY-MM-DD")
       this.$http({
         url: `sales/edit`,
         method: 'POST',
         data: {
           id: this.sale.id,
           status: this.status,
-          subsidiary: this.subsidiary
+          subsidiary: this.subsidiary,
+          pickup: this.pickup
         }
       }).then((res) => {
         this.success_message = true

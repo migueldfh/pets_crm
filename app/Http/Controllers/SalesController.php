@@ -60,7 +60,9 @@ class SalesController extends Controller
       'folio' => $sale->folio,
       'id' => $sale->id,
       'quantity' => $sale->quantity,
-      'total' => $sale->total
+      'total' => $sale->total,
+      'created_at' => $sale->created_at,
+      'pickup' => $sale->pickup
     ];
 
     return response()->json(
@@ -75,6 +77,7 @@ class SalesController extends Controller
     $sale = Sale::find($request->id);
 
     $sale->status = $request->status;
+    $sale->pickup = $request->pickup;
     $sale->save();
 
     $sales = Subsidiary::find($request->subsidiary)->sales;
