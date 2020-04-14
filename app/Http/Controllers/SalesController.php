@@ -55,12 +55,34 @@ class SalesController extends Controller
       'pet' => $sale->pet,
       'client' => $sale->client,
       'seller' => $sale->seller,
+      'products' => $new_products,
+      'status' => $sale->status,
+      'folio' => $sale->folio,
+      'id' => $sale->id,
+      'quantity' => $sale->quantity,
+      'total' => $sale->total
     ];
 
     return response()->json(
       [
           'status' => 'success',
-          'sale' => $sale
+          'sale' => $data
       ], Response::HTTP_OK);
+  }
+
+  public function editSingleSale(Request $request)
+  {
+    $sale = Sale::find($request->id);
+
+    $sale->status = $request->status;
+    $sale->save();
+
+    $sales = Subsidiary::find($request->subsidiary)->sales;
+
+    return response()->json(
+        [
+            'status' => 'success',
+            'sales' => $sales
+        ], Response::HTTP_OK);
   }
 }

@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('sales/{id}', 'SalesController@getSingleSale');
     Route::post('sales', 'SalesController@addSale');
+    Route::post('sales/edit', 'SalesController@editSingleSale');
 
     Route::get('subsidiary/{id}/sellers', 'SellerController@getSubsidiarySellers');
     Route::post('sellers', 'SellerController@addSeller');
