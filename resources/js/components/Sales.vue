@@ -86,7 +86,15 @@
           </div>
         </div>
         <hr>
-        <div>
+        <div v-if="old_seller">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Vendedor <a href="#" data-toggle="tooltip" title="Agregar vendedor" @click.prevent="old_seller = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="sellers" v-on:selected="validateSeller" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
           <h3>Vendedor</h3>
           <div class="form-row">
             <div class="form-group col-md-4 text-left">
@@ -112,9 +120,20 @@
               <label for="">Celular: {{ sale.seller.cellphone }}</label>
             </div>
           </div>
+          <div class="form-row">
+            <a href="#" class="btn btn-info" @click.prevent="old_seller = true">Cambiar Vendedor</a>
+          </div>
         </div>
         <hr>
-        <div>
+        <div v-if="old_client">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Cliente <a href="#" data-toggle="tooltip" title="Agregar cliente" @click.prevent="old_client = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="clients" v-on:selected="validateClient" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
           <h2>Cliente</h2>
           <div class="form-row">
             <div class="form-group col-md-4 text-left">
@@ -171,9 +190,20 @@
               <label for="city">Ciudad: {{ sale.client.city }}</label>
             </div>
           </div>
+          <div class="form-row">
+            <a href="#" class="btn btn-info" @click.prevent="old_client = true">Cambiar Cliente</a>
+          </div>
         </div>
         <hr>
-        <div>
+        <div v-if="old_pet">
+          <div class="form-row">
+            <div class="form-group col-md-6 text-left">
+              <label for="inputEmail4">Mascota <a href="#" data-toggle="tooltip" title="Agregar mascota" @click.prevent="old_pet = false"><i class="fas fa-plus-circle"></i></a></label>
+              <Dropdown :options="pets" v-on:selected="validatePet" placeholder="Buscar..."></Dropdown>
+            </div>
+          </div>
+        </div>
+        <div v-else>
           <h2>Mascota</h2>
           <div class="form-row">
             <div class="form-group col-md-4 text-left">
@@ -201,6 +231,9 @@
             <div class="form-group col-md-6 text-left">
               <label for="">Muerte: {{ sale.pet.death }}</label>
             </div>
+          </div>
+          <div class="form-row">
+            <a href="#" class="btn btn-info" @click.prevent="old_pet = true">Cambiar Mascota</a>
           </div>
         </div>
         <hr>
@@ -665,7 +698,7 @@
                         <tr v-for="service in uniqueServices">
                           <th scope="row"> {{ service.code }} </th>
                           <td>{{ service.name }}</td>
-                          <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="service.quantity" disabled>&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="service.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="number" name="" class="inputQ" v-model="service.quantity">&nbsp;<a href="#" @click.prevent="service.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" v-model="service.selling_price" class="inputQ" name="" value=""></td>
                           <td> ${{ service.selling_price * service.quantity }} </td>
                           <td><a href="#" @click.prevent="deleteService(service.id)"><i class="fas fa-trash-alt"></i></a></td>
@@ -699,7 +732,7 @@
                         <tr v-for="product in uniqueProducts">
                           <th scope="row"> {{ product.code }} </th>
                           <td>{{ product.name }}</td>
-                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity" disabled>&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="product.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" value="" class="inputQ" v-model="product.quantity">&nbsp;<a href="#" @click.prevent="product.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" class="inputQ" v-model="product.selling_price" name="" value=""></td>
                           <td> ${{ product.selling_price * product.quantity }} </td>
                           <td><a href="#" @click.prevent="deleteProduct(product.id)"><i class="fas fa-trash-alt"></i></a></td>
@@ -736,7 +769,7 @@
                         <tr v-for="accesory in uniqueAccesories">
                           <th scope="row"> {{ accesory.code }} </th>
                           <td>{{ accesory.name }}</td>
-                          <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity" disabled>&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
+                          <td><a href="#" @click.prevent="accesory.quantity -= 1"><i class="fas fa-minus-circle"></i></a>&nbsp;<input type="text" name="" class="inputQ" value="" v-model="accesory.quantity">&nbsp;<a href="#" @click.prevent="accesory.quantity += 1"><i class="fas fa-plus-circle"></i></a></td>
                           <td><input type="text" v-model="accesory.selling_price" class="inputQ" name="" value=""></td>
                           <td> ${{ accesory.selling_price * accesory.quantity }} </td>
                           <td><a href="#" @click.prevent="deleteAccesory(accesory.id)"><i class="fas fa-trash-alt"></i></a></td>
@@ -937,8 +970,8 @@ export default {
               total.push(val.quantity) // the value of the current key.
           }
       });
-
-      return total.reduce(function(total, num){ return total + num }, 0);
+      console.log(total)
+      return total.reduce(function(t, num){ return parseInt(t) + parseInt(num) }, 0);
     },
   },
   methods: {
@@ -1279,6 +1312,9 @@ export default {
         this.sale = res.data.sale
         this.subSelected = false
         this.singleSale =  true
+        this.old_seller = false
+        this.old_client = false
+        this.old_pet = false
 
         this.created_at = moment(this.sale.created_at).format("MM-DD-YYYY")
         this.pickup = moment(this.sale.pickup).format("MM-DD-YYYY")
@@ -1295,7 +1331,10 @@ export default {
           id: this.sale.id,
           status: this.status,
           subsidiary: this.subsidiary,
-          pickup: this.pickup
+          pickup: this.pickup,
+          client: this.client.id,
+          seller: this.seller.id,
+          pet: this.pet.id,
         }
       }).then((res) => {
         this.success_message = true

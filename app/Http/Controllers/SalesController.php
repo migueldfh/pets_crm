@@ -78,6 +78,9 @@ class SalesController extends Controller
 
     $sale->status = $request->status;
     $sale->pickup = $request->pickup;
+    $sale->client_id = $request->client;
+    $sale->pet_id = $request->pet;
+    $sale->seller_id = $request->seller;
     $sale->save();
 
     $sales = Subsidiary::find($request->subsidiary)->sales;
