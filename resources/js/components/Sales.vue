@@ -207,7 +207,7 @@
           <h2>Mascota</h2>
           <div class="form-row">
             <div class="form-group col-md-4 text-left">
-              <label for="">Especie: {{ sale.pet.kind }}</label>
+              <label for="">Especie: {{ sale.pet.kind != null ? sale.pet.kind : '' }}</label>
             </div>
             <div class="form-group col-md-4 text-left">
               <label for="">Género: {{ sale.pet.genus }}</label>
