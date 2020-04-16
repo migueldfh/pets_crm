@@ -204,36 +204,38 @@
           </div>
         </div>
         <div v-else>
-          <h2>Mascota</h2>
-          <div class="form-row">
-            <div class="form-group col-md-4 text-left">
-              <label for="">Especie: {{ sale.pet.kind != null ? sale.pet.kind : '' }}</label>
+          <div v-if="sale.pet != null">
+            <h2>Mascota</h2>
+            <div class="form-row">
+              <div class="form-group col-md-4 text-left">
+                <label for="">Especie: {{ sale.pet.kind }}</label>
+              </div>
+              <div class="form-group col-md-4 text-left">
+                <label for="">Género: {{ sale.pet.genus }}</label>
+              </div>
+              <div class="form-group col-md-4 text-left">
+                <label for="">Peso: {{ sale.pet.weight }}</label>
+              </div>
             </div>
-            <div class="form-group col-md-4 text-left">
-              <label for="">Género: {{ sale.pet.genus }}</label>
+            <div class="form-row">
+              <div class="form-group col-md-6 text-left">
+                <label for="">Nombre: {{ sale.pet.name }}</label>
+              </div>
+              <div class="form-group col-md-6 text-left">
+                <label for="">Familia: {{ sale.pet.owner }}</label>
+              </div>
             </div>
-            <div class="form-group col-md-4 text-left">
-              <label for="">Peso: {{ sale.pet.weight }}</label>
+            <div class="form-row">
+              <div class="form-group col-md-6 text-left">
+                <label for="">Nacimiento: {{ sale.pet.birth }}</label>
+              </div>
+              <div class="form-group col-md-6 text-left">
+                <label for="">Muerte: {{ sale.pet.death }}</label>
+              </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6 text-left">
-              <label for="">Nombre: {{ sale.pet.name }}</label>
+            <div class="form-row">
+              <a href="#" class="btn btn-info" @click.prevent="old_pet = true">Cambiar Mascota</a>
             </div>
-            <div class="form-group col-md-6 text-left">
-              <label for="">Familia: {{ sale.pet.owner }}</label>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6 text-left">
-              <label for="">Nacimiento: {{ sale.pet.birth }}</label>
-            </div>
-            <div class="form-group col-md-6 text-left">
-              <label for="">Muerte: {{ sale.pet.death }}</label>
-            </div>
-          </div>
-          <div class="form-row">
-            <a href="#" class="btn btn-info" @click.prevent="old_pet = true">Cambiar Mascota</a>
           </div>
         </div>
         <hr>
