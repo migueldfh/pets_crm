@@ -1,6 +1,6 @@
 <template>
-    <div class="">
-        <header class="cd-main-header js-cd-main-header">
+    <div>
+        <header class="cd-main-header js-cd-main-header not-printable">
             <div class="cd-logo-wrapper">
               <a href="#0" class="cd-logo"><img src="/img/cd-logo.svg" alt="Logo"></a>
             </div>
@@ -38,7 +38,7 @@
             </ul>
         </header> <!-- .cd-main-header -->
         <main class="cd-main-content">
-          <nav class="cd-side-nav js-cd-side-nav">
+          <nav class="cd-side-nav js-cd-side-nav not-printable">
             <ul class="cd-side__list js-cd-side__list">
               <li class="cd-side__item cd-side__item--selected cd-side__item--overview"
                   v-if="$auth.check()"
@@ -239,3 +239,11 @@
     }
   }
 </script>
+
+<style lang="css" scoped>
+@media print {
+   .not-printable {
+       display: none;
+    }
+}
+</style>
